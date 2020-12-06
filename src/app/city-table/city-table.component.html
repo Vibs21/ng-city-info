@@ -1,0 +1,72 @@
+<div class="row">
+    <div class="col-xs-12 col-sm-6 col-lg-5 col-xl-5">
+
+
+    </div>
+    <div class="col-xs-12 col-sm-6 col-lg-7 col-xl-7">
+      <div class="table-pad">
+        <div class="example-container mat-elevation-z8">
+        <mat-table [dataSource]="dataSource" matSort>
+
+          <!-- ID Column -->
+<!--          <ng-container matColumnDef="id">-->
+<!--            <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>-->
+<!--            <mat-cell *matCellDef="let row"> {{row.id}} </mat-cell>-->
+<!--          </ng-container>-->
+
+          <!-- Progress Column -->
+          <ng-container matColumnDef="city">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> City </mat-header-cell>
+            <mat-cell *matCellDef="let row" [style.color]="row.color"> {{row.city}}% </mat-cell>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="startdate">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Start Date </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.startdate | date}} </mat-cell>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="enddate">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> End Date </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.enddate | date}} </mat-cell>
+          </ng-container>
+
+          <!-- Color Column -->
+<!--          <ng-container matColumnDef="color">-->
+<!--            <mat-header-cell *matHeaderCellDef mat-sort-header> Color </mat-header-cell>-->
+<!--            <mat-cell *matCellDef="let row" [style.color]="row.color"> {{row.color}} </mat-cell>-->
+<!--          </ng-container>-->
+
+          <ng-container matColumnDef="price">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Prices </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.price}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="status">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Status </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{row.status}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="delete">
+            <mat-header-cell *matHeaderCellDef>  </mat-header-cell>
+            <mat-cell *matCellDef="let row" style="text-align: center">
+              <button (click)="deleteRecord(row.id)" type="button" class="btn btn-sm btn-danger">Del</button>
+             </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;">
+          </mat-row>
+        </mat-table>
+
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+      </div>
+      </div>
+    </div>
+
+</div>
+
+
+
+<div class="loading" *ngIf="isLoading">Loading&#8230;</div>
