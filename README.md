@@ -1,27 +1,14 @@
 # CityInfo
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.2.
+This project is running on angular version 11.0.2.
 
-## Development server
+## Steps and Requirements to start project (for first time)
+1. Install Node greater then "6.9" version and npm > "3.0"
+2. npm install -g @angular/cli --- Angular cli is a command line interface to scaffold and build angular apps using nodejs style (commonJs) modules. 
+									Not only it provides you scalable project structure, instead it handles all common tedious tasks for you out of the box.
+3. Direct link of quick start project [Angular CLI](https://angular.io/generated/zips/cli-quickstart/cli-quickstart.zip)
+	<br />OR
+4. npm install
+5. ng serve --open or -o -- using open is not necessary it just open your browser in your respective port.	
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
