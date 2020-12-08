@@ -10,5 +10,11 @@ This project is running on angular version 11.0.2.
 	<br />OR
 4. npm install
 5. ng serve --open or -o -- using open is not necessary it just open your browser in your respective port.	
+6. open the application on browser on https://github.com/Vibs21/ng-city-info.git
 
-
+Steps to build and run locally:
+* Open commandline
+* Go to repository where you want to clone.
+* Clone repository using following command=>   https://github.com/Vibs21/ng-city-info.git
+* Run given command in the same repository=> mvn clean tomcat7:run  OR alternatively by using IDE like intelliJ
+* Access and invoke APIs using url => http://localhost:4200
