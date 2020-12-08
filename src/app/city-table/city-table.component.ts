@@ -5,6 +5,7 @@ import {MatPaginator} from '@angular/material/paginator';
 import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {timeout} from 'rxjs/operators';
+import {NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 
 export interface UserData {
   id: number;
@@ -33,6 +34,9 @@ export class CityTableComponent implements OnInit, AfterViewInit {
   users: UserData[] = [];
   serverUrl: string;
   isLoading = false;
+  startDate: NgbDateStruct;
+  endDate: NgbDateStruct;
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -64,7 +68,7 @@ export class CityTableComponent implements OnInit, AfterViewInit {
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
           this.isLoading = false;
-        }, 1000);
+        }, 100);
       });
   }
 
@@ -82,8 +86,23 @@ export class CityTableComponent implements OnInit, AfterViewInit {
   }
 
 
-  applyFilter = (filterValue: string) => {
+  applyFilter = () => {
+    this.isLoading = true;
+    const sDt = this.startDate.year + '-' + this.startDate.month + '-' + this.startDate.day;
+    const eDt = this.endDate.year + '-' + this.endDate.month + '-' + this.endDate.day;
+    this.http
+      .get(this.serverUrl + 'city/' + sDt + '/' + eDt, {})
+      .subscribe((data) => {
 
+        // @ts-ignore
+        this.dataSource = new MatTableDataSource(data);
+        setTimeout(() => {
+          console.log('hide');
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+          this.isLoading = false;
+        }, 200);
+      });
   }
 
 }

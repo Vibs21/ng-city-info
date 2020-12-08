@@ -7,3 +7,8 @@ html, body {
   height: 100%;
   background: lightsalmon;
 }
+
+.cal-btn {
+  margin-top: 15px;
+  text-align: right;
+}
