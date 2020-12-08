@@ -4,8 +4,8 @@ import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
-import {timeout} from 'rxjs/operators';
 import {NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 export interface UserData {
   id: number;
@@ -17,18 +17,12 @@ export interface UserData {
   color: string;
 }
 
-// const COLORS = ['maroon', 'red', 'orange', 'yellow', 'olive', 'green', 'purple',
-//   'fuchsia', 'lime', 'teal', 'aqua', 'blue', 'navy', 'black', 'gray'];
-// const NAMES = ['Maia', 'Asher', 'Olivia', 'Atticus', 'Amelia', 'Jack',
-//   'Charlotte', 'Theodore', 'Isla', 'Oliver', 'Isabella', 'Jasper',
-//   'Cora', 'Levi', 'Violet', 'Arthur', 'Mia', 'Thomas', 'Elizabeth'];
-
 @Component({
   selector: 'app-city-table',
   templateUrl: './city-table.component.html',
   styleUrls: ['./city-table.component.css']
 })
-export class CityTableComponent implements OnInit, AfterViewInit {
+export class CityTableComponent implements OnInit {
   displayedColumns = ['city', 'startdate', 'enddate' , 'price', 'status' , 'delete'];
   dataSource: MatTableDataSource<UserData>;
   users: UserData[] = [];
@@ -41,12 +35,8 @@ export class CityTableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
 
   // tslint:disable-next-line:typedef
-  ngAfterViewInit() {
-    // this.dataSource.paginator = this.paginator;
-    // this.dataSource.sort = this.sort;
-  }
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private snackBar: MatSnackBar) {
     this.serverUrl = environment.serverUrl;
     // Assign the data to the data source for the table to render
     this.getAllCities();
@@ -68,11 +58,30 @@ export class CityTableComponent implements OnInit, AfterViewInit {
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
           this.isLoading = false;
+          this.openSnackBar('All cities successfully fetched!');
         }, 100);
+      }, () => {
+        this.isLoading = false;
+        this.openSnackBar('Something went wrong!');
       });
   }
 
-  updateCity = () => {
+  updateCity = (id: string, city: any) => {
+    this.http
+      .put(this.serverUrl + 'city/' + id, {
+        city
+      })
+      .subscribe((data) => {
+        // @ts-ignore
+        this.dataSource = new MatTableDataSource(data);
+        setTimeout(() => {
+          console.log('hide');
+          this.getAllCities();
+          this.isLoading = false;
+        }, 200);
+      }, err => {
+        this.isLoading = false;
+      });
   }
 
   deleteRecord = id => {
@@ -81,6 +90,7 @@ export class CityTableComponent implements OnInit, AfterViewInit {
       .delete(this.serverUrl + 'city/' + id, {})
       .subscribe((data) => {
         console.log(data);
+        this.openSnackBar('Record with id: ' + id + ' deleted successfully');
         this.getAllCities();
       });
   }
@@ -93,7 +103,6 @@ export class CityTableComponent implements OnInit, AfterViewInit {
     this.http
       .get(this.serverUrl + 'city/' + sDt + '/' + eDt, {})
       .subscribe((data) => {
-
         // @ts-ignore
         this.dataSource = new MatTableDataSource(data);
         setTimeout(() => {
@@ -101,8 +110,18 @@ export class CityTableComponent implements OnInit, AfterViewInit {
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
           this.isLoading = false;
+          this.openSnackBar('Filter applied successfully!');
         }, 200);
+      }, err => {
+        this.isLoading = false;
+        this.openSnackBar('Something went wrong!');
       });
+  }
+
+  openSnackBar = (message: string) => {
+    this.snackBar.open(message, 'dismiss', {
+      duration: 4000
+    });
   }
 
 }
